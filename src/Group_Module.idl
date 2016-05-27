@@ -1,0 +1,14 @@
+module Group {
+
+
+  interface CRUD_Falae {
+
+    string inserir_grupo();
+	string createGroup(in long id,in string name,in string description,in long rating);
+	string getGroups();
+	string removeGroup(in long id);
+	
+  };
+
+
+};
