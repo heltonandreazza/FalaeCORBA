@@ -12,6 +12,8 @@ public interface RMIServerAPI extends Remote {
 	String postGroup(int id, String name, String desc, String userName, String jsonUsers, String token)
 			throws RemoteException;
 	
+	String setUsersGroup(String groupName, String jsonUsers, String token) throws RemoteException;
+	
 	void writeGroupsFile() throws RemoteException;
 	
 	void loadGroupsFile() throws RemoteException;

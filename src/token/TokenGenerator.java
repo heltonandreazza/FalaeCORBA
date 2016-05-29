@@ -79,9 +79,27 @@ public class TokenGenerator {
 		String token = signedJWT.serialize();
 
 		saveToken(userName, userPassword, token, signedJWT);
+		saveLog(userName, token);
+		
+		
 		// Serialize to compact form, produces something like
 		// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA
 		return token;
+	}
+
+	private static void saveLog(String userName, String userPassword) {
+		try {
+			RMIServerAPI rmi = ServerUtils.getServerStub();
+			
+			rmi.postLog(userName, userPassword, new Date(new Date().getTime()).toString());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private static boolean authenticUser(String userName, String userPassword) {

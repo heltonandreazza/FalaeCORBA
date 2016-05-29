@@ -24,8 +24,8 @@ public class ClientCorba {
 	private static void testAllServices(CORBA_Falae server) {
 
 		System.out.println();
-		System.out.println("post log: " + server.postLog("helton", "asdsad", new Date(new Date().getTime()).toString()));
-		System.out.println("post log: " + server.postLog("helton2", "684684", new Date(new Date().getTime()).toString()));
+		System.out.println("post log: " + server.postLog("testeLog", "asdsad", new Date(new Date().getTime()).toString()));
+		System.out.println("post log: " + server.postLog("testeLog2", "684684", new Date(new Date().getTime()).toString()));
 
 		System.out.println("\n LISTAR LOGS: \n" + server.getLogs());
 		
