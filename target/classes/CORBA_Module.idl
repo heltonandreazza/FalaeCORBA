@@ -1,0 +1,16 @@
+module Corba {
+
+
+  interface CORBA_Falae {
+
+	string getUsers();
+	string getLogs();
+	string postLog(in string userName, in string token, in string dateTime);
+
+	string generateToken(in string userName,in string userPassword);
+	boolean verifyToken(in string token);
+	
+  };
+
+
+};

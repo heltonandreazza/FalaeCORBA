@@ -1,0 +1,1 @@
+//string createGroup(in long id,in string name,in string description,in long rating);

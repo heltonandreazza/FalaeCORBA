@@ -1,35 +1,19 @@
-package Clients;
+package clients;
 
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
+import java.util.Date;
 
-import Group.CRUD_Falae;
-import Group.CRUD_FalaeHelper;
+import servers.RMIServerAPI;
+import servers.ServerUtils;
+import Corba.CORBA_Falae;
 
-public class clientCorba {
+public class ClientCorba {
 
 	public static void main(String args[]) {
 
 		try {
-			CRUD_Falae server = getServerConnection("localhost");
-
-			// Imprime mensagem de boas-vindas
-			System.out.println("response: "
-					+ server.createGroup(1, "nome", "desc", 10));
-			System.out.println("response: "
-					+ server.createGroup(2, "nome2", "desc2", 102));
-			System.out.println("response: "
-					+ server.createGroup(3, "nome3", "desc3", 11));
-
-			System.out.println("\n LISTAR GRUPOS: \n" + server.getGroups());
-
-			System.out.println("\n response: " + server.removeGroup(2));
-
-			System.out.println("\n LISTAR GRUPOS: \n" + server.getGroups());
+			CORBA_Falae server = ServerUtils.getServerCorba();
+			
+			testAllServices(server);
 
 		} catch (Exception e) {
 			System.out.println("ERROR : " + e);
@@ -37,25 +21,21 @@ public class clientCorba {
 		}
 	}
 
-	private static CRUD_Falae getServerConnection(String serverName)
-			throws InvalidName, NotFound, CannotProceed,
-			org.omg.CosNaming.NamingContextPackage.InvalidName {
-		// Cria e inicializa o ORB
-		String[] args = { "-ORBInitialPort", "2000", "-ORBInitialHost",
-				serverName };
+	private static void testAllServices(CORBA_Falae server) {
 
-		ORB orb = ORB.init(args, null);
+		System.out.println();
+		System.out.println("post log: " + server.postLog("helton", "asdsad", new Date(new Date().getTime()).toString()));
+		System.out.println("post log: " + server.postLog("helton2", "684684", new Date(new Date().getTime()).toString()));
 
-		// Obtem referencia para o servico de nomes
-		org.omg.CORBA.Object objRef = orb
-				.resolve_initial_references("NameService");
-		NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-		// Obtem referencia para o servidor
-		String name = "CRUD_Falae";
-		CRUD_Falae server = CRUD_FalaeHelper.narrow(ncRef.resolve_str(name));
-
-		return server;
+		System.out.println("\n LISTAR LOGS: \n" + server.getLogs());
+		
+		System.out.println();
+		String generateToken = server.generateToken("helton", "123");		
+		System.out.println("generate token: " + generateToken);
+		
+		System.out.println("verify a token: " + server.verifyToken(generateToken));
+		
+		System.out.println("\n LISTAR USERS: \n" + server.getUsers());
 	}
 
 }
